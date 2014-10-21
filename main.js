@@ -67,27 +67,34 @@ document.addEventListener("DOMContentLoaded", function(){
 
         getJSON('https://volunteerism-sscotth.firebaseio.com/students.json', function(data){
           var students = data;
+          var shuffledStudents;
 
           var $ul = document.getElementById("results");
           $ul.innerHTML = "";
 
           var groupCriteria = $form.querySelector("select").value;
 
-          if(groupCriteria === "random-student"){
+          switch(groupCriteria){
+            case "random-student":
               var studentNumber = getRandomInt(0, students.length);
               var studentName = students[studentNumber];
               addItemToList($ul, studentName);
-          } else if(groupCriteria === "neighbor-pairing") {
+              break;
+            case "neighbor-pairing":
               neighborGrouping(students, 2, $ul);
-          } else if(groupCriteria === "team-three"){
-               neighborGrouping(students, 3, $ul);
-          } else if(groupCriteria ==="randPair"){
-              var shuffledStudents = arrayShuffle(students);
+              break;
+            case "team-three":
+              neighborGrouping(students, 3, $ul);
+              break;
+            case "randPair":
+              shuffledStudents = arrayShuffle(students);
               neighborGrouping(shuffledStudents, 2, $ul);
-          } else if(groupCriteria ==="randN"){
-              var shuffledStudents = arrayShuffle(students);
+              break;
+            case "randN":
+              shuffledStudents = arrayShuffle(students);
               var value = $numBox.value;
               neighborGrouping(shuffledStudents, value, $ul);
+              break;
           }
         });
     });
