@@ -50,10 +50,6 @@ function hide(element) {
 
 document.addEventListener("DOMContentLoaded", function(){
     var $form = document.getElementById("generate-group");
-    var students;
-    getJSON('https://volunteerism-sscotth.firebaseio.com/students.json', function(data){
-      students = data;
-    });
 
     var $select = $form.querySelector("select");
     var $numBox = $form.querySelector("input[type='number']");
@@ -68,24 +64,29 @@ document.addEventListener("DOMContentLoaded", function(){
 
     $form.addEventListener("submit", function(event){
         event.preventDefault();
-        var $ul = document.getElementById("results");
-        $ul.innerHTML = "";
 
-        var groupCriteria = $form.querySelector("select").value;
+        getJSON('https://volunteerism-sscotth.firebaseio.com/students.json', function(data){
+          var students = data;
 
-        if(groupCriteria === "random-student"){
-            var studentNumber = getRandomInt(0, students.length);
-            var studentName = students[studentNumber];
-            addItemToList($ul, studentName);
-        } else if(groupCriteria === "neighbor-pairing") {
-            neighborGrouping(students, 2, $ul);
-        } else if(groupCriteria === "team-three"){
-             neighborGrouping(students, 3, $ul);
-        } else if(groupCriteria ==="randPair"){
-            var shuffledStudents = arrayShuffle(students);
-            neighborGrouping(shuffledStudents, 2, $ul);
-        } else if(groupCriteria ==="randN"){
+          var $ul = document.getElementById("results");
+          $ul.innerHTML = "";
 
-        }
+          var groupCriteria = $form.querySelector("select").value;
+
+          if(groupCriteria === "random-student"){
+              var studentNumber = getRandomInt(0, students.length);
+              var studentName = students[studentNumber];
+              addItemToList($ul, studentName);
+          } else if(groupCriteria === "neighbor-pairing") {
+              neighborGrouping(students, 2, $ul);
+          } else if(groupCriteria === "team-three"){
+               neighborGrouping(students, 3, $ul);
+          } else if(groupCriteria ==="randPair"){
+              var shuffledStudents = arrayShuffle(students);
+              neighborGrouping(shuffledStudents, 2, $ul);
+          } else if(groupCriteria ==="randN"){
+
+          }
+        });
     });
 });
