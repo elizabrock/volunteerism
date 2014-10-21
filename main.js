@@ -85,7 +85,9 @@ document.addEventListener("DOMContentLoaded", function(){
               var shuffledStudents = arrayShuffle(students);
               neighborGrouping(shuffledStudents, 2, $ul);
           } else if(groupCriteria ==="randN"){
-
+              var shuffledStudents = arrayShuffle(students);
+              var value = $numBox.value;
+              neighborGrouping(shuffledStudents, value, $ul);
           }
         });
     });
